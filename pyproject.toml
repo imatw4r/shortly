@@ -99,4 +99,5 @@ flake8-bandit = "3.0.0"
 
 [tool.poe.tasks]
 test = "pytest tests"
-format = "black ."
+format = "black shortly"
+lint = "flakeheaven lint shortly"
