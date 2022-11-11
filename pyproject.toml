@@ -94,6 +94,9 @@ isort = "^5.10.1"
 pyright = "^1.1.279"
 poethepoet = "^0.16.4"
 pytest = "^7.2.0"
+flake8-bandit = "3.0.0"
 
-[tool.poetry.scripts]
-format = "scripts:format"
+
+[tool.poe.tasks]
+test = "pytest tests"
+format = "black ."
