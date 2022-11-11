@@ -1,0 +1,99 @@
+[tool.bandit]
+exclude = [".eggs", ".venv", "build", "cdk.out", "dist", "venv"]
+
+[tool.black]
+line-length = 119
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | cdk.out
+  | dist
+  | venv
+)/
+'''
+
+[tool.coverage.run]
+branch = true
+omit = ["*/setup.py"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "if TYPE_CHECKING",
+]
+
+[tool.flakeheaven]
+extended_default_ignore = []
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".venv",
+    "build",
+    "cdk.out",
+    "dist",
+    "venv",
+]
+format = "grouped"
+max_complexity = 18
+show_source = true
+
+[tool.flakeheaven.plugins]
+"flake8-*" = ["+*"]
+"flake8-bandit" = ["-S101"]
+mccabe = ["+*"]
+pycodestyle = ["+*", "-E501", "-W503"]
+pyflakes = ["+*"]
+
+[tool.flakeheaven.exceptions."**/__init__.py"]
+pyflakes = ["-F401", "-F403"]
+
+[tool.isort]
+profile = "black"
+line_length = 119
+skip_gitignore = true
+extend_skip_glob = [
+    ".eggs/*",
+    ".venv/*",
+    "build/*",
+    "cdk.out/*",
+    "dist/*",
+    "venv/*",
+]
+
+[tool.pyright]
+exclude = [".pytest_cache", ".mypy_cache", ".vscode", "cdk.out/*"]
+pythonVersion = "3.10"
+
+[tool.poetry]
+name = "shortly"
+version = "0.0.1"
+description = "URL shortener"
+authors = ["Bartek Krzys", "Przemyslaw Rozycki"]
+
+
+[tool.poetry.dependencies]
+python = "3.10.4"
+
+[tool.poetry.group.dev.dependencies]
+black = "22.10.0"
+flakeheaven = "3.2.1"
+mypy = "0.990"
+isort = "^5.10.1"
+pyright = "^1.1.279"
+poethepoet = "^0.16.4"
+pytest = "^7.2.0"
+
+[tool.poetry.scripts]
+format = "scripts:format"
