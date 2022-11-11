@@ -85,6 +85,7 @@ authors = ["Bartek Krzys", "Przemyslaw Rozycki"]
 
 [tool.poetry.dependencies]
 python = "3.10.4"
+fastapi = "0.86.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "22.10.0"
