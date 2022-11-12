@@ -1,2 +1,5 @@
+from shortly.app import app
+
+
 def test_example():
-    assert True
+    assert app
