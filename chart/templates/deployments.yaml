@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: {{ .Chart.Name }}-deploy
+  labels:
+    app: {{ .Chart.Name }}-{{ .Values.app.version }}
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+
+    spec:
+      containers:
+        - name: app
+          image: {{ .Values.docker.image }}
+          imagePullPolicy: {{ .Values.docker.pullPolicy | default "Always" | quote }}
+
+          env:
+          - name: POSTGRES_USER
+            value: {{ .Values.auth.username }}
+          - name: POSTGRES_PASSWORD
+            value: {{ .Values.auth.password }}
+          - name: POSTGRES_DB_NAME
+            value: {{ .Values.auth.database }}
+          - name: POSTGRES_HOST
+            value: postgres-postgresql
