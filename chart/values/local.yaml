@@ -1,0 +1,5 @@
+app:
+  version: 0.0.1
+docker:
+  image: shortly # Must match skaffold.yaml Artifact name
+  pullPolicy: Never # Always use local image

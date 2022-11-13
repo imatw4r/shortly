@@ -1,0 +1,4 @@
+apiVersion: v1
+name: shortly
+version: 0.0.1
+description: "Shortly chart repo"
