@@ -11,7 +11,7 @@ class DatabaseSettings(BaseSettings):
     ECHO_LOGS: bool = True
     ENABLE_PROFILER: bool = True
 
-    def get_async_uri(self) -> SecretStr:  # use this URI to async connection
+    def get_async_uri(self) -> SecretStr:
         uri = PostgresDsn.build(
             scheme="postgresql+asyncpg",
             user=self.USER,
@@ -22,7 +22,7 @@ class DatabaseSettings(BaseSettings):
         )
         return SecretStr(value=uri)
 
-    def get_sync_uri(self) -> SecretStr:  # use this URI to migration
+    def get_sync_uri(self) -> SecretStr:
         async_uri = self.get_sync_uri().get_secret_value()
         return SecretStr(value=async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2"))
 
