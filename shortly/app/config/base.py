@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     ASYNC_POSTGRES_URI: str = ""  # use this URI to async connection
 
-    @validator("ASYNC_PSQL_URI", always=True)
+    @validator("ASYNC_POSTGRES_URI", always=True)
     def get_async_psql_uri(cls, async_psql_uri: str, values: dict[str, Any]) -> str:
         return PostgresDsn.build(
             scheme="postgresql+asyncpg",
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     SYNC_POSTGRES_URI: str = ""  # use this URI to alembic migration
 
-    @validator("SYNC_PSQL_URI", always=True)
+    @validator("SYNC_POSTGRES_URI", always=True)
     def get_sync_psql_uri(cls, sync_psql_uri: str, values: dict[str, str]) -> str:
         async_uri = values["ASYNC_POSTGRES_URI"]
         return async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2")
