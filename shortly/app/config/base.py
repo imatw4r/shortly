@@ -35,7 +35,7 @@ class DatabaseSettings(BaseSettings):
         fields = {
             "USER": {"env": ["POSTGRES_USER"]},
             "PASSWORD": {"env": ["POSTGRES_PASSWORD"]},
-            "DB_NAME": {"env": ["POSTGRES_DB_NAME"]},
+            "NAME": {"env": ["POSTGRES_DB_NAME"]},
             "HOST": {"env": ["POSTGRES_HOST"]},
             "PORT": {"env": ["POSTGRES_PORT"]},
             "ECHO_LOGS": {"env": ["DB_ECHO_LOGS"]},
