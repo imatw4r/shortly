@@ -1,1 +1,3 @@
-from .base import settings
+from .base import Settings
+
+settings = Settings()
