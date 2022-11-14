@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from shortly.app.events import setup_events
+from shortly.app.signals import setup_signals
 
 app = FastAPI()
 
-setup_events(app=app)
+setup_signals(app=app)
