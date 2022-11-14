@@ -12,10 +12,10 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: str = "5432"
 
-    ASYNC_POSTGRES_URI: SecretStr = ""  # use this URI to async connection
+    ASYNC_POSTGRES_URI: SecretStr = SecretStr(value="")  # use this URI to async connection
 
     @validator("ASYNC_POSTGRES_URI", pre=True)
-    def get_async_psql_uri(cls, async_psql_uri: str, values: dict[str, Any]) -> SecretStr:
+    def get_async_psql_uri(cls, async_psql_uri: SecretStr, values: dict[str, Any]) -> SecretStr:
         async_uri = PostgresDsn.build(
             scheme="postgresql+asyncpg",
             user=values["POSTGRES_USER"],
@@ -26,11 +26,11 @@ class Settings(BaseSettings):
         )
         return SecretStr(value=async_uri)
 
-    SYNC_POSTGRES_URI: SecretStr = ""  # use this URI to alembic migration
+    SYNC_POSTGRES_URI: SecretStr = SecretStr(value="")  # use this URI to alembic migration
 
     @validator("SYNC_POSTGRES_URI", pre=True)
-    def get_sync_psql_uri(cls, sync_psql_uri: str, values: dict[str, str]) -> SecretStr:
-        async_uri = values["ASYNC_POSTGRES_URI"]
+    def get_sync_psql_uri(cls, sync_psql_uri: SecretStr, values: dict[str, Any]) -> SecretStr:
+        async_uri = values["ASYNC_POSTGRES_URI"].get_secret_value()
         sync_uri = async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2")
         return SecretStr(value=sync_uri)
 
