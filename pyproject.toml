@@ -101,6 +101,7 @@ SQLAlchemy = {extras = ["mypy"], version = "1.4.44"}
 asyncpg = "0.27.0"
 psycopg2 = "2.9.5"
 alembic = "1.8.1"
+sqlalchemy-easy-profile = "^1.2.1"
 
 
 [tool.poetry.group.dev.dependencies]

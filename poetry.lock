@@ -645,6 +645,21 @@ pymysql = ["pymysql", "pymysql (<1)"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
+name = "sqlalchemy-easy-profile"
+version = "1.2.1"
+description = "An easy profiler for SQLAlchemy queries"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+sqlalchemy = "<1.5"
+sqlparse = ">=0.3.0"
+
+[package.extras]
+dev = ["tox"]
+
+[[package]]
 name = "sqlalchemy2-stubs"
 version = "0.0.2a29"
 description = "Typing Stubs for SQLAlchemy 1.4"
@@ -654,6 +669,14 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 typing-extensions = ">=3.7.4"
+
+[[package]]
+name = "sqlparse"
+version = "0.4.3"
+description = "A non-validating SQL parser."
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "starlette"
@@ -774,7 +797,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.10.*"
-content-hash = "0a481a1a5548bd455e4f8a086af7efa15ecb8fa871b9d7ce409e2c78acb6a7b9"
+content-hash = "18fdc61fc019e7990e1ad43fbe3fcd1d384fa42d5b046689ccf4defe694075f4"
 
 [metadata.files]
 alembic = [
@@ -1371,9 +1394,17 @@ SQLAlchemy = [
     {file = "SQLAlchemy-1.4.44-cp39-cp39-win_amd64.whl", hash = "sha256:d3b6d4588994da73567bb00af9d7224a16c8027865a8aab53ae9be83f9b7cbd1"},
     {file = "SQLAlchemy-1.4.44.tar.gz", hash = "sha256:2dda5f96719ae89b3ec0f1b79698d86eb9aecb1d54e990abb3fdd92c04b46a90"},
 ]
+sqlalchemy-easy-profile = [
+    {file = "sqlalchemy-easy-profile-1.2.1.tar.gz", hash = "sha256:def78c8346d22a95834b88bc4ab4668bc6fb5b05d1323919bc109482d098520d"},
+    {file = "sqlalchemy_easy_profile-1.2.1-py3-none-any.whl", hash = "sha256:f1c466faf5a151f5fe0843b0cc19d9986d20d525f1c47da57a2a0b5efd84eeb6"},
+]
 sqlalchemy2-stubs = [
     {file = "sqlalchemy2-stubs-0.0.2a29.tar.gz", hash = "sha256:1bbc6aebd76db7c0351a9f45cc1c4e8ac335ba150094c2af091e8b87b9118419"},
     {file = "sqlalchemy2_stubs-0.0.2a29-py3-none-any.whl", hash = "sha256:ece266cdabf3797b13ddddba27561b67ae7dedc038942bf66e045e978a5e3a66"},
+]
+sqlparse = [
+    {file = "sqlparse-0.4.3-py3-none-any.whl", hash = "sha256:0323c0ec29cd52bceabc1b4d9d579e311f3e4961b98d174201d5622a23b85e34"},
+    {file = "sqlparse-0.4.3.tar.gz", hash = "sha256:69ca804846bb114d2ec380e4360a8a340db83f0ccf3afceeb1404df028f57268"},
 ]
 starlette = [
     {file = "starlette-0.20.4-py3-none-any.whl", hash = "sha256:c0414d5a56297d37f3db96a84034d61ce29889b9eaccf65eb98a0b39441fcaa3"},
