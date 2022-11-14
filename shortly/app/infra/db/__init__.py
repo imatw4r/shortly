@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from shortly.app.config import settings
 
 SQLALCHEMY_ENGINE = create_engine(
