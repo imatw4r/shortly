@@ -1,42 +1,49 @@
-from typing import Any
-
-from pydantic import BaseSettings, PostgresDsn, SecretStr, validator
+from pydantic import BaseSettings, PostgresDsn, SecretStr
 
 
-class Settings(BaseSettings):
+class DatabaseSettings(BaseSettings):
     # Postgres connection settings
 
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: SecretStr
-    POSTGRES_DB_NAME: str
-    POSTGRES_HOST: str
-    POSTGRES_PORT: str = "5432"
-
-    ASYNC_POSTGRES_URI: SecretStr = SecretStr(value="")  # use this URI to async connection
-
-    @validator("ASYNC_POSTGRES_URI", pre=True)
-    def get_async_psql_uri(cls, async_psql_uri: SecretStr, values: dict[str, Any]) -> SecretStr:
-        async_uri = PostgresDsn.build(
-            scheme="postgresql+asyncpg",
-            user=values["POSTGRES_USER"],
-            password=values["POSTGRES_PASSWORD"].get_secret_value(),
-            path=f"/{values['POSTGRES_DB_NAME']}",
-            port=values["POSTGRES_PORT"],
-            host=values["POSTGRES_HOST"],
-        )
-        return SecretStr(value=async_uri)
-
-    SYNC_POSTGRES_URI: SecretStr = SecretStr(value="")  # use this URI to alembic migration
-
-    @validator("SYNC_POSTGRES_URI", pre=True)
-    def get_sync_psql_uri(cls, sync_psql_uri: SecretStr, values: dict[str, Any]) -> SecretStr:
-        async_uri = values["ASYNC_POSTGRES_URI"].get_secret_value()
-        sync_uri = async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2")
-        return SecretStr(value=sync_uri)
+    USER: str
+    PASSWORD: SecretStr
+    DB_NAME: str
+    HOST: str
+    PORT: str = "5432"
 
     # Postgres logs settings
 
-    DB_ECHO_LOGS: bool = True
+    ECHO_LOGS: bool = True
+
+    def get_async_uri(self) -> SecretStr:  # use this URI to async connection
+        uri = PostgresDsn.build(
+            scheme="postgresql+asyncpg",
+            user=self.USER,
+            password=self.PASSWORD.get_secret_value(),
+            path=f"/{self.DB_NAME}",
+            port=self.PORT,
+            host=self.HOST,
+        )
+        return SecretStr(value=uri)
+
+    def get_sync_uri(self) -> SecretStr:  # use this URI to migration
+        async_uri = self.get_sync_uri().get_secret_value()
+        return SecretStr(value=async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2"))
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+        fields = {
+            "USER": {"env": ["POSTGRES_USER"]},
+            "PASSWORD": {"env": ["POSTGRES_PASSWORD"]},
+            "DB_NAME": {"env": ["POSTGRES_DB_NAME"]},
+            "HOST": {"env": ["POSTGRES_HOST"]},
+            "PORT": {"env": ["POSTGRES_PORT"]},
+            "ECHO_LOGS": {"env": ["DB_ECHO_LOGS"]},
+        }
+
+
+class Settings(BaseSettings):
+    db: DatabaseSettings = DatabaseSettings()
 
     class Config:
         env_file = ".env"
