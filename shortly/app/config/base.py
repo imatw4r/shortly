@@ -13,6 +13,7 @@ class DatabaseSettings(BaseSettings):
     # Postgres logs settings
 
     ECHO_LOGS: bool = True
+    ENABLE_PROFILER: bool = True
 
     def get_async_uri(self) -> SecretStr:  # use this URI to async connection
         uri = PostgresDsn.build(
