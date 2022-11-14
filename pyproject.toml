@@ -78,8 +78,7 @@ extend_skip_glob = [
     "build/*",
     "cdk.out/*",
     "dist/*",
-    "venv/*",
-    "alembic"
+    "venv/*"
 ]
 
 [tool.pyright]
