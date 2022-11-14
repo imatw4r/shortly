@@ -6,7 +6,7 @@ class DatabaseSettings(BaseSettings):
 
     USER: str
     PASSWORD: SecretStr
-    DB_NAME: str
+    NAME: str
     HOST: str
     PORT: str = "5432"
 
@@ -19,7 +19,7 @@ class DatabaseSettings(BaseSettings):
             scheme="postgresql+asyncpg",
             user=self.USER,
             password=self.PASSWORD.get_secret_value(),
-            path=f"/{self.DB_NAME}",
+            path=f"/{self.NAME}",
             port=self.PORT,
             host=self.HOST,
         )
