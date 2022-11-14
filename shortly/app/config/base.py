@@ -2,15 +2,11 @@ from pydantic import BaseSettings, PostgresDsn, SecretStr
 
 
 class DatabaseSettings(BaseSettings):
-    # Postgres connection settings
-
     USER: str
     PASSWORD: SecretStr
     NAME: str
     HOST: str
     PORT: str = "5432"
-
-    # Postgres logs settings
 
     ECHO_LOGS: bool = True
     ENABLE_PROFILER: bool = True
