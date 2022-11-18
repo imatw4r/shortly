@@ -23,16 +23,15 @@ spec:
         - name: app
           image: {{ .Values.docker.image }}
           imagePullPolicy: {{ .Values.docker.pullPolicy | default "Always" | quote }}
-          # envFrom:
-          #   secretRef:
-          #     name: postgres-postgresql
-
+          envFrom:
+          - secretRef:
+              name: "shortly-secret"
           env:
           - name: POSTGRES_USER
-            value: "postgres"
-          - name: POSTGRES_PASSWORD
-            value: "postgres"
+            value: "{{ .Values.global.postgresql.auth.username }}"
           - name: POSTGRES_DB_NAME
-            value: "postgres"
+            value: "{{ .Values.global.postgresql.auth.database }}"
           - name: POSTGRES_HOST
-            value: "postgres"
+            value: "postgres-postgresql"
+          - name: POSTGRES_PORT
+            value: "{{ .Values.global.postgresql.service.ports.postgresql }}"

@@ -130,3 +130,7 @@ dmypy.json
 
 .vscode
 .idea
+
+postgres
+
+local_secrets.yaml

@@ -1,11 +1,23 @@
 app:
   version: 0.0.1
+
 docker:
   image: shortly # Must match skaffold.yaml Artifact name
   pullPolicy: Never # Always use local image
 
+global:
+  postgresql:
+    auth:
+      username: "shortly_user"
+      database: "shortly"
+      existingSecret: "shortly-secret"
+      secretKeys:
+        userPasswordKey: "POSTGRES_PASSWORD"
+        adminPasswordKey: "POSTGRES_ADMIN_PASSWORD"
+    service:
+      ports:
+        postgresql: "5432"
 
-
-global.postgresql.auth.username: postgres
-global.postgresql.auth.password: postgres
-global.postgresql.auth.database: postgres
+primary:
+  persistence:
+    size: "1Gi"

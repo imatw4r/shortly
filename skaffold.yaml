@@ -28,10 +28,6 @@ deploy:
         skipBuildDependencies: true # Skip helm dep build
         valuesFiles:
           - chart/values/local.yaml
-        setValues:
-          auth.username: customUser
-          auth.password: postgres
-          auth.database: postgres
 
 portForward:
   - resourceType: deployment
