@@ -1,12 +1,9 @@
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
   name: {{ .Chart.Name }}-deploy
   labels:
     app: {{ .Chart.Name }}-{{ .Values.app.version }}
-
 spec:
   replicas: 1
   selector:
