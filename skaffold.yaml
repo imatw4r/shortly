@@ -30,9 +30,9 @@ deploy:
           - chart/values/local.yaml
 
 portForward:
-  - resourceType: deployment
-    resourceName: shortly-deploy
-    port: 8000
+  - resourceType: service
+    resourceName: shortly-svc
+    port: 80
     address: 0.0.0.0
     localPort: 8000
 
