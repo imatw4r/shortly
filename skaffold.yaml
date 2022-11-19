@@ -1,0 +1,43 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+build:
+  local:
+    push: false
+
+  tagPolicy:
+    sha256: {}
+
+  artifacts:
+    - image: shortly
+      context: "."
+      docker:
+        dockerfile: Dockerfile
+        noCache: false
+
+deploy:
+  helm:
+    releases:
+      - name: shortly
+        chartPath: chart
+        valuesFiles:
+          - chart/values/local.yaml
+
+      - name: postgres
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        skipBuildDependencies: true # Skip helm dep build
+        valuesFiles:
+          - chart/values/local.yaml
+
+portForward:
+  - resourceType: service
+    resourceName: shortly-svc
+    port: 80
+    address: 0.0.0.0
+    localPort: 8000
+
+  - resourceType: service
+    resourceName: postgres-postgresql
+    port: 5432
+    address: 0.0.0.0
+    localPort: 5432
