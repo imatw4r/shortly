@@ -17,11 +17,6 @@ build:
 deploy:
   helm:
     releases:
-      - name: shortly
-        chartPath: chart
-        valuesFiles:
-          - chart/values/local.yaml
-
       - name: postgres
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -29,15 +24,20 @@ deploy:
         valuesFiles:
           - chart/values/local.yaml
 
-portForward:
-  - resourceType: service
-    resourceName: shortly-svc
-    port: 80
-    address: 0.0.0.0
-    localPort: 8000
+      - name: shortly
+        chartPath: chart
+        valuesFiles:
+          - chart/values/local.yaml
 
+portForward:
   - resourceType: service
     resourceName: postgres-postgresql
     port: 5432
     address: 0.0.0.0
     localPort: 5432
+
+  - resourceType: service
+    resourceName: shortly-svc
+    port: 80
+    address: 0.0.0.0
+    localPort: 8000

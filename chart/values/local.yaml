@@ -21,3 +21,6 @@ global:
 primary:
   persistence:
     size: "1Gi"
+    mountPath: "/data/postgresql"
+
+postgresqlDataDir: "/data/postgresql/data"
