@@ -1,4 +1,5 @@
 from pydantic import BaseSettings, PostgresDsn, SecretStr
+from functools import partial
 
 
 class DatabaseSettings(BaseSettings):
@@ -11,20 +12,23 @@ class DatabaseSettings(BaseSettings):
     ECHO_LOGS: bool = True
     ENABLE_PROFILER: bool = True
 
-    def get_async_uri(self) -> SecretStr:
-        uri = PostgresDsn.build(
-            scheme="postgresql+asyncpg",
-            user=self.USER,
-            password=self.PASSWORD.get_secret_value(),
-            path=f"/{self.NAME}",
-            port=self.PORT,
-            host=self.HOST,
+    def _build_uri(self, schema: str) -> SecretStr:
+        return SecretStr(
+            value=partial(
+                PostgresDsn.build,
+                user=self.USER,
+                password=self.PASSWORD.get_secret_value(),
+                path=f"/{self.NAME}",
+                port=self.PORT,
+                host=self.HOST,
+            )(scheme=schema)
         )
-        return SecretStr(value=uri)
+
+    def get_async_uri(self) -> SecretStr:
+        return self._build_uri(schema="postgresql+asyncpg")
 
     def get_sync_uri(self) -> SecretStr:
-        async_uri = self.get_async_uri().get_secret_value()
-        return SecretStr(value=async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2"))
+        return self._build_uri(schema="postgresql+psycopg2")
 
     class Config:
         env_file = ".env"
