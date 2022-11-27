@@ -133,4 +133,4 @@ dmypy.json
 
 postgres
 
-local_secrets.yaml
+chart/templates/local_secrets.yaml

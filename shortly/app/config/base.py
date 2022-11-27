@@ -23,7 +23,7 @@ class DatabaseSettings(BaseSettings):
         return SecretStr(value=uri)
 
     def get_sync_uri(self) -> SecretStr:
-        async_uri = self.get_sync_uri().get_secret_value()
+        async_uri = self.get_async_uri().get_secret_value()
         return SecretStr(value=async_uri.replace("postgresql+asyncpg", "postgresql+psycopg2"))
 
     class Config:

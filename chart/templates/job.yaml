@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration-job
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  backoffLimit: 15
+  template:
+    metadata:
+      name: migration-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: app
+          image: {{ .Values.docker.image }}
+          imagePullPolicy: {{ .Values.docker.pullPolicy | default "Always" | quote }}
+          envFrom:
+          - secretRef:
+              name: "shortly-secret"
+          env:
+          - name: POSTGRES_USER
+            value: "{{ .Values.global.postgresql.auth.username }}"
+          - name: POSTGRES_DB_NAME
+            value: "{{ .Values.global.postgresql.auth.database }}"
+          - name: POSTGRES_HOST
+            value: "postgres-postgresql"
+          - name: POSTGRES_PORT
+            value: "{{ .Values.global.postgresql.service.ports.postgresql }}"
+          workingDir: "/app/shortly/app/adapters/alembic"
+          command: ["alembic", "upgrade", "head"]
